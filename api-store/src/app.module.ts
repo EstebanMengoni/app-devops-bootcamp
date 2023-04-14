@@ -3,10 +3,17 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { StoreModule } from './store/store.module';
+import { ConfigModule, ConfigService } from '@nestjs/config'
 @Module({
   imports: [
-    MongooseModule.forRoot(process.env.DB_URI),
-    StoreModule,
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        uri: config.get<string>('DB_URI'), // Loaded from .ENV
+      })
+    }),
+    StoreModule
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,8 +1,7 @@
 FROM node:18.15-alpine as builder
 WORKDIR /app
 COPY . .
-RUN npm install -g npm@9.6.4 --omit-dev
-RUN npm install && npm run build
+RUN npm install -g npm@9.6.4 && npm run build
 
 FROM node:18.15-alpine
 WORKDIR /app
