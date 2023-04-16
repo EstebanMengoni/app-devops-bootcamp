@@ -3,16 +3,14 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { StoreModule } from './store/store.module';
-import { ConfigModule, ConfigService } from '@nestjs/config'
+
+const username = process.env.MONGO_USR || 'myusername';
+const password = process.env.MONGO_PSSWD || 'mypassword';
+const serviceUri = process.env.DB_URI || 'myservice';
+
 @Module({
   imports: [
-    MongooseModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: async (config: ConfigService) => ({
-        uri: config.get<string>('DB_URI'), // Loaded from .ENV
-      })
-    }),
+    MongooseModule.forRoot(`mongodb://${username}:${password}@${serviceUri}:27017/store`),
     StoreModule
   ],
   controllers: [AppController],
