@@ -8,9 +8,14 @@ const username = process.env.MONGO_USR || 'myusername';
 const password = process.env.MONGO_PSSWD || 'mypassword';
 const serviceUri = process.env.DB_URI || 'myservice';
 
+//`mongodb://${username}:${password}@${serviceUri}:27017/store`
+
 @Module({
   imports: [
-    MongooseModule.forRoot(`mongodb://${username}:${password}@${serviceUri}:27017/store`),
+    MongooseModule.forRoot('',{
+      uri:`mongodb://${username}:${password}@${serviceUri}:27017/`,
+      dbName:'store'
+    }),
     StoreModule
   ],
   controllers: [AppController],
