@@ -10,7 +10,9 @@ const serviceUri = process.env.DB_URI || 'myservice';
 
 @Module({
   imports: [
-    MongooseModule.forRoot(`mongodb://${username}:${password}@${serviceUri}:27017`),
+    MongooseModule.forRoot(`mongodb://${username}:${password}@${serviceUri}:27017`,{
+      dbName: 'store',
+    }),
     StoreModule
   ],
   controllers: [AppController],
