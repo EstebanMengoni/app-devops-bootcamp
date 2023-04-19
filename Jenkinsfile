@@ -75,10 +75,8 @@ pipeline {
                 withCredentials([
                     usernamePassword(credentialsId: "${DOCKER_CRED_ID}", usernameVariable: 'DOCKER_USR', passwordVariable: 'DOCKER_PSSWD')
                 ]){
-                    sh """
-                    echo -n ${DOCKER_PSSWD} | docker login -u '${DOCKER_USR}' --password-stdin
-                    docker push ${DOCKER_IMG}
-                    """
+                    sh 'echo -n $DOCKER_PSSWD | docker login -u $DOCKER_USR --password-stdin'
+                    sh "docker push ${DOCKER_IMG}"
                 }
             }
         }
