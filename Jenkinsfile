@@ -87,7 +87,7 @@ pipeline {
                 echo "Updating K8s Manifest..."
                 sh"""
                 git clone ${K8S_REPO}
-                cd ${K8S_DIR}/environments/${env.JOB_NAME}
+                cd ${K8S_DIR}/environments/${env.BRANCH_NAME}
                 sed -i 's ${REGISTRY}:.* ${DOCKER_IMG} g' kustomization.yaml
                 """
                 echo "Pushing K8s Manifest..."
