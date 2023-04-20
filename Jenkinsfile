@@ -75,10 +75,8 @@ pipeline {
                 withCredentials([
                     usernamePassword(credentialsId: "${DOCKER_CRED_ID}", usernameVariable: 'DOCKER_USR', passwordVariable: 'DOCKER_PSSWD')
                 ]){
-                    sh """
-                    echo -n ${DOCKER_PSSWD} | docker login -u '${DOCKER_USR}' --password-stdin
-                    docker push ${DOCKER_IMG}
-                    """
+                    sh 'echo -n $DOCKER_PSSWD | docker login -u $DOCKER_USR --password-stdin'
+                    sh "docker push ${DOCKER_IMG}"
                 }
             }
         }
@@ -87,7 +85,7 @@ pipeline {
                 echo "Updating K8s Manifest..."
                 sh"""
                 git clone ${K8S_REPO}
-                cd ${K8S_DIR}/environments/staging
+                cd ${K8S_DIR}/environments/${env.BRANCH_NAME}
                 sed -i 's ${REGISTRY}:.* ${DOCKER_IMG} g' kustomization.yaml
                 """
                 echo "Pushing K8s Manifest..."
